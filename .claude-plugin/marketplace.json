@@ -1,0 +1,20 @@
+{
+  "name": "d-market-skill",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "metadata": {
+    "description": "Claude Code Skills Marketplace",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "skill-creator",
+      "source": "./plugins/skill-creator",
+      "description": "Agent Skillの設計・作成・改善を支援するスキル。SKILL.mdの構成、YAMLフロントマター、段階的開示パターン、ワークフロー設計、評価・イテレーションのベストプラクティスを網羅。",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["skill-authoring", "skill-creation", "best-practices"]
+    }
+  ]
+}
