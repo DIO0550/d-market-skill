@@ -1,6 +1,7 @@
 ---
 name: marketplace-scaffold
 description: "Claude Code Skills Marketplaceのフォルダ構造を生成するスキル。.claude-plugin/marketplace.json、plugins/ディレクトリ、plugin.json、skills/ディレクトリを含むMarketplaceのディレクトリ構造をスキャフォールドする。「マーケットプレイスを作りたい」「Marketplace雛形」「スキルマーケットプレイス作成」「marketplace template」「プラグインリポジトリの初期化」「スキル配布基盤を構築」「marketplace scaffold」「新しいmarketplaceを立ち上げる」などのキーワードでトリガー。Marketplace構造の新規作成、既存リポジトリへのMarketplace構造追加、いずれの場面でも積極的に使用すること。"
+disable-model-invocation: true
 ---
 
 # Marketplace Scaffold
