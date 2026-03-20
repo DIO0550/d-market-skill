@@ -1,0 +1,9 @@
+{
+  "name": "marketplace-template",
+  "version": "1.0.0",
+  "description": "Claude Code Skills Marketplaceの雛形プロジェクトを生成するプラグイン。marketplace.json、plugin.json、SKILL.mdテンプレート、バリデーションスクリプトを含む完全なMarketplace構造をスキャフォールドする。",
+  "author": {
+    "name": "DIO0550"
+  },
+  "skills": "./skills"
+}

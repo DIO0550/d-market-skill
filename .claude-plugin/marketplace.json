@@ -15,6 +15,14 @@
       "version": "1.0.0",
       "category": "productivity",
       "tags": ["skill-authoring", "skill-creation", "best-practices"]
+    },
+    {
+      "name": "marketplace-template",
+      "source": "./plugins/marketplace-template",
+      "description": "Claude Code Skills Marketplaceの雛形プロジェクトを生成するプラグイン。marketplace.json、plugin.json、SKILL.mdテンプレート、スキャフォールドスクリプトを含む完全なMarketplace構造を自動生成する。",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["marketplace", "scaffold", "template", "project-init"]
     }
   ]
 }
