@@ -209,6 +209,8 @@
 }
 ```
 
+**重要:** `config` の代わりに `configuration` を使い、`pass_rate` は `result` の中にネストする。このスキーマを参照して benchmark.json を生成すること。
+
 **フィールド:**
 - `metadata`: ベンチマーク実行の情報
 - `runs[]`: 個別のラン結果
