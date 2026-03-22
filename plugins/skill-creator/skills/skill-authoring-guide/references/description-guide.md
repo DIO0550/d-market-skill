@@ -156,43 +156,7 @@ description: "私はPDFの処理をお手伝いできます"
 
 ---
 
-## 自動最適化ワークフロー
-
-`scripts/run_loop.py` を使って description の自動最適化が可能。
-
-### 前提条件
-
-- `claude` CLI がインストールされていること（`claude -p` コマンドを使用）
-- 評価セットJSON（20個の should-trigger / should-not-trigger クエリ）
-
-### 実行手順
-
-1. **評価セットをHTMLでレビュー**: `assets/eval_review.html` テンプレートのプレースホルダーを置換してブラウザで開く
-   - `__EVAL_DATA_PLACEHOLDER__` → 評価データJSON配列
-   - `__SKILL_NAME_PLACEHOLDER__` → スキル名
-   - `__SKILL_DESCRIPTION_PLACEHOLDER__` → 現在のdescription
-
-2. **最適化ループを実行**:
-   ```bash
-   python -m scripts.run_loop \
-     --eval-set <path-to-eval-set.json> \
-     --skill-path <path-to-skill> \
-     --model <model-id> \
-     --max-iterations 5 \
-     --verbose
-   ```
-
-3. **結果を確認**: HTMLレポートが自動生成される。train/testスコアの推移を確認
-
-### 仕組み
-
-- 評価セットを 60% train / 40% test に分割（過学習防止）
-- 現在のdescriptionを評価（各クエリ3回実行で信頼性確保）
-- 失敗パターンに基づいてClaudeが改善案を生成
-- 改善案を再評価し、最大5回イテレーション
-- **テストスコア**で最良のdescriptionを選択（trainではなく）
-
-### トリガーの仕組みを理解する
+## トリガーの仕組みを理解する
 
 descriptionはClaudeの `available_skills` リストに表示され、Claudeはそれに基づいてスキルを参照するかを決定する。重要なのは、Claudeは自力で簡単に処理できるタスクにはスキルを参照しないこと。「このPDFを読んで」のような単純なクエリは、descriptionが完璧でもスキルをトリガーしない場合がある。
 

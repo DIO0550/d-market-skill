@@ -101,7 +101,7 @@
 
 **フィールド:**
 - `expectations[]`: エビデンス付きの採点済み期待値
-  - `text`, `passed`, `evidence` が必須（viewerがこの正確なフィールド名に依存）
+  - `text`, `passed`, `evidence` が必須
 - `summary`: 集計パス/フェイルカウント
 - `execution_metrics`: ツール使用量と出力サイズ（executor の metrics.json から）
 - `timing`: 実行時間（timing.json から）
@@ -209,12 +209,10 @@
 }
 ```
 
-**重要:** viewerはこれらのフィールド名を正確に読む。`config` の代わりに `configuration` を使い、`pass_rate` は `result` の中にネストする。このスキーマを参照して benchmark.json を手動生成すること。
-
 **フィールド:**
 - `metadata`: ベンチマーク実行の情報
 - `runs[]`: 個別のラン結果
-  - `configuration`: `"with_skill"` または `"without_skill"`（viewerがこの文字列でグループ化・色分け）
+  - `configuration`: `"with_skill"` または `"without_skill"`
   - `result`: ネストオブジェクト（`pass_rate`, `passed`, `total`, `time_seconds`, `tokens`, `errors`）
 - `run_summary`: 構成別の統計集計
   - `delta`: 差分文字列（`"+0.50"`, `"+13.0"` など）
