@@ -1,6 +1,7 @@
 ---
 name: suggest-skills
 description: "PermissionRequestフックで記録された承認コマンドログ（.claude/plugin-data/approved-commands/*.jsonl）を分析し、新しいスキルの候補を提案するスキル。繰り返し承認しているコマンドパターンを検出し、スキル化すべきワークフローを具体的に提案する。「おすすめスキル」「スキル提案」「どんなスキルを作るべき？」「コマンドログを分析」「承認パターンを確認」「スキルを成長させたい」「suggest skills」「skill recommendation」「analyze commands」などのキーワードでトリガー。コマンドログが存在するプロジェクトで積極的に使用すること。"
+disable-model-invocation: true
 ---
 
 # Suggest Skills
