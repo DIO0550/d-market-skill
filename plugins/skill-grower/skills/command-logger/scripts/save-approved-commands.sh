@@ -1,7 +1,8 @@
 #!/bin/bash
 # save-approved-commands.sh
-# PostToolUse フックで実行されたコマンド系ツールをセッション別ファイルに記録する。
+# PermissionRequest フックで、ユーザーに承認が求められたコマンドをセッション別ファイルに記録する。
 # 記録されたコマンドは、新しいスキル作成の素材として活用できる。
+# このスクリプトは記録のみ行い、権限判定には介入しない（exit 0で通常フローを継続）。
 
 set -euo pipefail
 
@@ -50,4 +51,5 @@ jq -n -c \
   '{timestamp: $ts, session: $session, tool: $tool, command: $cmd, input: $input}' \
   >> "$LOG_FILE"
 
+# exit 0: 権限判定に介入せず通常の承認ダイアログを表示
 exit 0
