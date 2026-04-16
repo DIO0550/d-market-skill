@@ -1,6 +1,6 @@
 ---
 name: suggest-skills
-description: "PermissionRequestフックで記録された承認コマンドログ（.claude/plugin-data/approved-commands/*.jsonl）を分析し、新しいスキルの候補を提案するスキル。繰り返し承認しているコマンドパターンを検出し、スキル化すべきワークフローを具体的に提案する。「おすすめスキル」「スキル提案」「どんなスキルを作るべき？」「コマンドログを分析」「承認パターンを確認」「スキルを成長させたい」「suggest skills」「skill recommendation」「analyze commands」などのキーワードでトリガー。コマンドログが存在するプロジェクトで積極的に使用すること。"
+description: "PermissionRequestフックで記録された承認コマンドログ（.claude/plugin-workspace/approved-commands/*.jsonl）を分析し、新しいスキルの候補を提案するスキル。繰り返し承認しているコマンドパターンを検出し、スキル化すべきワークフローを具体的に提案する。「おすすめスキル」「スキル提案」「どんなスキルを作るべき？」「コマンドログを分析」「承認パターンを確認」「スキルを成長させたい」「suggest skills」「skill recommendation」「analyze commands」などのキーワードでトリガー。コマンドログが存在するプロジェクトで積極的に使用すること。"
 disable-model-invocation: true
 ---
 
@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 ### Step 1: ログの読み込み
 
-`.claude/plugin-data/approved-commands/` 配下のJSONLファイルを全て読み込む。
+`.claude/plugin-workspace/approved-commands/` 配下のJSONLファイルを全て読み込む。
 
 ファイルが存在しない場合は、まだコマンドが記録されていない旨を伝え、プラグインのhooksが有効になっているか確認を促す。
 
@@ -84,5 +84,5 @@ disable-model-invocation: true
 
 ## 前提条件
 
-- `.claude/plugin-data/approved-commands/` にログが存在すること
+- `.claude/plugin-workspace/approved-commands/` にログが存在すること
 - `jq` がインストールされていること（ログ解析に使用）
