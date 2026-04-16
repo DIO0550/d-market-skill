@@ -23,6 +23,14 @@
       "version": "1.0.0",
       "category": "productivity",
       "tags": ["marketplace", "scaffold", "template", "project-init"]
+    },
+    {
+      "name": "skill-grower",
+      "source": "./plugins/skill-grower",
+      "description": "Skillを自動的に成長させるためのプラグイン。セッション中に実行されたコマンドをセッション別ファイルに自動記録し、記録されたコマンドログから新しいスキルを作成するための素材を収集する。",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["hooks", "command-logging", "skill-growth", "session-history"]
     }
   ]
 }
