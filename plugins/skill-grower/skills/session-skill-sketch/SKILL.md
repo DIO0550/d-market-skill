@@ -1,12 +1,12 @@
 ---
-name: propose-skills-from-sessions
-description: "Stopフックで書き出されたセッションログ（.claude/plugin-workspace/session-logs/*.md）を分析し、新しいスキルの作成を提案するスキル。セッションの目的・やり取りの流れ・繰り返しパターンからスキル化すべきワークフローを検出する。「セッションからスキル提案」「ログからスキルを作りたい」「セッション履歴を分析」「propose skills」「session analysis」「スキル化の提案」「何をスキルにすべき？」などのキーワードでトリガー。セッションログが蓄積されたプロジェクトで積極的に使用すること。"
+name: session-skill-sketch
+description: "Stopフックで書き出されたセッションログ（.claude/plugin-workspace/session-logs/*.md）を分析し、新しいスキルの作成計画（スケッチ）を立てるスキル。セッションの目的・やり取りの流れ・繰り返しパターンからスキル化すべきワークフローを検出し、スキル名・内容・根拠を含む作成計画を出力する。「セッションからスキル計画」「ログからスキルを作りたい」「セッション履歴を分析」「スキルスケッチ」「session sketch」「スキル化の計画」「何をスキルにすべき？」などのキーワードでトリガー。セッションログが蓄積されたプロジェクトで積極的に使用すること。"
 disable-model-invocation: true
 ---
 
-# Propose Skills from Sessions
+# Session Skill Sketch
 
-セッションログを分析し、スキル化すべきワークフローを提案する。
+セッションログを分析し、次に作るべきスキルの作成計画（スケッチ）を立てる。
 
 ---
 
@@ -79,9 +79,9 @@ disable-model-invocation: true
 - `.claude/plugin-workspace/approved-commands/` にコマンドログがある場合、セッションログと組み合わせて分析する
 - コマンドの頻度データとセッションの文脈を組み合わせることで、より精度の高い提案が可能
 
-### Step 3: スキル候補の提案
+### Step 3: スキル作成計画（スケッチ）の作成
 
-分析結果を元に、具体的なスキル候補を提案する。各提案には以下を含める:
+分析結果を元に、具体的なスキル作成計画（スケッチ）を作成する。各スケッチには以下を含める:
 
 - **スキル名**: kebab-caseの具体的な名前
 - **カテゴリ**: ワークフロー自動化 / 品質チェック / プロジェクト管理 / コード生成 / その他
@@ -93,7 +93,7 @@ disable-model-invocation: true
 
 ### Step 4: ユーザーとの対話
 
-提案を見せた上で:
+スケッチを見せた上で:
 1. 「どのスキルを作りますか？」と聞く
 2. ユーザーが選んだスキルについて、SKILL.mdのドラフトを作成する
 3. skill-creator プラグイン（skill-authoring-guide）があれば連携してスキルを作成する
@@ -101,7 +101,7 @@ disable-model-invocation: true
 
 ---
 
-## 提案の出力例
+## スケッチの出力例
 
 ```
 ## セッションログ分析結果
@@ -110,7 +110,7 @@ disable-model-invocation: true
 
 ---
 
-### スキル候補
+### スキル作成スケッチ
 
 #### 1. pr-review-workflow（優先度: 高）
 - **カテゴリ**: ワークフロー自動化
@@ -139,5 +139,5 @@ disable-model-invocation: true
 ## 前提条件
 
 - `.claude/plugin-workspace/session-logs/` にセッションログが存在すること
-- 精度の高い提案には最低3セッション以上のログが推奨
-- skill-creatorプラグインがあると、提案からスキル作成までシームレスに連携可能
+- 精度の高いスケッチには最低3セッション以上のログが推奨
+- skill-creatorプラグインがあると、スケッチからスキル作成までシームレスに連携可能
