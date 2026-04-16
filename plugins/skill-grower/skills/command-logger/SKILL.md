@@ -1,12 +1,6 @@
 ---
 name: command-logger
 description: "Claude Codeのhooksを使って、セッション中にユーザーに承認が求められたコマンド（Bash, Edit, Write等）をセッション別のJSONLファイルに自動記録するスキル。PermissionRequestフックにより、承認ダイアログが表示されたコマンドのみを記録する。記録されたコマンドログは新しいスキル作成の素材として活用できる。Skillを自動的に成長させるための基盤。「承認コマンドを記録」「コマンドログを取りたい」「実行したコマンドを保存」「セッションのコマンド履歴」「スキル作成用にコマンドを収集」「hooks設定でコマンド記録」「approved commands logger」「command history hook」「スキルを成長させたい」などのキーワードでトリガー。"
-hooks:
-  PermissionRequest:
-    - matcher: "Bash|Edit|Write"
-      hooks:
-        - type: command
-          command: "./scripts/save-approved-commands.sh"
 ---
 
 # Command Logger
