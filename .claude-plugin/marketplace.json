@@ -27,7 +27,7 @@
     {
       "name": "skill-grower",
       "source": "./plugins/skill-grower",
-      "description": "Skillを自動的に成長させるためのプラグイン。セッション中に実行されたコマンドをセッション別ファイルに自動記録し、記録されたコマンドログから新しいスキルを作成するための素材を収集する。",
+      "description": "Skillを自動的に成長させるためのプラグイン。セッション中に実行されたコマンドをセッション別ファイルに自動記録し、セッション終了時にやり取りの要約をログとして書き出す。蓄積されたコマンドログ・セッションログから新しいスキルを作成するための分析と提案を行う。",
       "version": "1.0.0",
       "category": "productivity",
       "tags": ["hooks", "command-logging", "skill-growth", "session-history"]
