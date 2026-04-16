@@ -15,7 +15,7 @@ TOOL_INPUT=$(echo "$INPUT" | jq -c '.tool_input // {}')
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 # ログ出力先ディレクトリ
-LOG_DIR="${CLAUDE_PROJECT_DIR:-.}/.claude/approved-commands"
+LOG_DIR="${CLAUDE_PROJECT_DIR:-.}/.claude/plugin-data/approved-commands"
 mkdir -p "$LOG_DIR"
 
 # セッションIDからファイル名を生成（安全な文字のみ）

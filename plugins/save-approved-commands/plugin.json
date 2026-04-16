@@ -1,9 +1,0 @@
-{
-  "name": "save-approved-commands",
-  "version": "1.0.0",
-  "description": "Claude Codeセッション中にユーザーが承認したコマンドをセッション別ファイルに自動記録するhooksを設定するプラグイン。記録されたコマンドログから新しいスキルを作成するための素材収集に活用できる。",
-  "author": {
-    "name": "DIO0550"
-  },
-  "skills": "./skills"
-}
