@@ -8,9 +8,15 @@ set -euo pipefail
 INPUT=$(cat)
 
 SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // "unknown"')
+# hook 実行時のプロジェクトルート。CLAUDE_PROJECT_DIR は環境変数として
+# 保証されないため、stdin JSON の .cwd を優先して使う。
+PROJECT_DIR=$(echo "$INPUT" | jq -r '.cwd // empty')
+if [ -z "$PROJECT_DIR" ]; then
+  PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$PWD}"
+fi
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-LOG_DIR="${CLAUDE_PROJECT_DIR:-.}/.claude/plugin-workspace/approved-commands"
+LOG_DIR="${PROJECT_DIR}/.claude/plugin-workspace/approved-commands"
 mkdir -p "$LOG_DIR"
 
 SAFE_SESSION_ID=$(echo "$SESSION_ID" | sed 's/[^a-zA-Z0-9_-]/_/g')
