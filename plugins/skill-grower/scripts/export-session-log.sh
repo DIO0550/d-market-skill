@@ -9,18 +9,22 @@ INPUT=$(cat)
 
 SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // "unknown"')
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-DATE_STR=$(date -u +"%Y%m%d_%H%M%S")
 
-LOG_DIR="${CLAUDE_PROJECT_DIR:-.}/.claude/plugin-workspace/session-logs"
+# unknown の場合は log-hook-event.sh と同じルールで一意化
+if [ "$SESSION_ID" = "unknown" ]; then
+  SESSION_ID="unknown_$$_$(date +%s)"
+fi
+
 SAFE_SESSION_ID=$(echo "$SESSION_ID" | sed 's/[^a-zA-Z0-9_-]/_/g')
-LOG_FILE="${LOG_DIR}/${DATE_STR}_${SAFE_SESSION_ID}.md"
+SESSION_DIR="${CLAUDE_PROJECT_DIR:-.}/.claude/plugin-workspace/sessions/${SAFE_SESSION_ID}"
+LOG_FILE="${SESSION_DIR}/session-log.md"
 
 cat <<EOF
 [Session Export Hook] セッションログを書き出してください。
 
 以下の手順で、今回のセッション内容をファイルに記録してください:
 
-1. ディレクトリ \`${LOG_DIR}\` を作成する（存在しない場合）
+1. ディレクトリ \`${SESSION_DIR}\` を作成する（存在しない場合）
 2. ファイル \`${LOG_FILE}\` に以下のMarkdown形式で書き出す:
 
 ---
@@ -39,14 +43,19 @@ cat <<EOF
 
 ## やり取りの流れ
 ユーザーからの依頼内容と、それに対して行った作業の流れを時系列で簡潔に記録。
+特にユーザーからの訂正・方向転換があった箇所は漏らさず記録すること（スキル化で重要）。
 
 ## 繰り返しパターン・注目点
 セッション中に繰り返し行った操作や、スキル化できそうなパターンがあれば記録。
 
+## 詰まった箇所・裁量補完
+指示が曖昧で判断に迷った箇所、自分の裁量で埋めた前提があれば記録。
+
 ---
 
-3. 書き出しが完了したら、書き出したファイルパスをユーザーに伝える。
-4. 簡潔に完了報告する（長い説明は不要）。
+3. 既にファイルが存在する場合は、末尾に追記する形で新しいエントリを追加する（上書きしない）。
+4. 書き出しが完了したら、書き出したファイルパスをユーザーに伝える。
+5. 簡潔に完了報告する（長い説明は不要）。
 EOF
 
 exit 0

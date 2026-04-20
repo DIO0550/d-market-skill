@@ -1,7 +1,7 @@
 #!/bin/bash
-# log-permission-request.sh
-# PermissionRequest フックで、リクエストされた内容をそのまま記録する。
-# 権限判定には介入しない（exit 0で通常フローを継続）。
+# log-user-prompt.sh
+# UserPromptSubmit フックで、ユーザーの発言を記録する。
+# 発言内容の加工はせず、そのまま保存する（sanitize や解析は skill 側の責務）。
 
 set -euo pipefail
 
@@ -14,7 +14,7 @@ SAFE_SESSION_ID=$(echo "$SESSION_ID" | sed 's/[^a-zA-Z0-9_-]/_/g')
 SESSION_DIR="${CLAUDE_PROJECT_DIR:-.}/.claude/plugin-workspace/sessions/${SAFE_SESSION_ID}"
 mkdir -p "$SESSION_DIR"
 
-LOG_FILE="${SESSION_DIR}/approved-commands.jsonl"
+LOG_FILE="${SESSION_DIR}/user-prompts.jsonl"
 
 # もらった値にタイムスタンプだけ足してそのまま書き出す
 echo "$INPUT" | jq -c --arg ts "$TIMESTAMP" '. + {timestamp: $ts}' >> "$LOG_FILE"
