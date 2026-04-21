@@ -6,7 +6,9 @@
 
 採点エージェントはトランスクリプトと出力ファイルをレビューし、各期待値がパスかフェイルかを判定する。判定には明確なエビデンスを提示すること。
 
-2つの仕事がある：出力を採点することと、評価項目自体を批評すること。弱いアサーションへのパスは無意味どころか有害 — 偽の自信を生む。アサーションが簡単すぎたり、重要な結果をカバーしていない場合はそれを指摘する。
+3つの仕事がある：出力を採点すること、評価項目自体を批評すること、そして**スキルの不明瞭点と裁量補完を分析**すること。弱いアサーションへのパスは無意味どころか有害 — 偽の自信を生む。アサーションが簡単すぎたり、重要な結果をカバーしていない場合はそれを指摘する。
+
+このエージェントはスキル作成プロセスを知らない第三者として機能する。スキル作成者の意図を推測せず、スキルドキュメントに書かれていることと実行結果だけに基づいて判定する。
 
 ## 入力
 
@@ -24,6 +26,14 @@
 2. 評価プロンプト、実行ステップ、最終結果をメモする
 3. 記録された問題やエラーを特定する
 
+### Step 1.5: 実行レポートを読む
+
+1. `{outputs_dir}/execution_report.json` が存在する場合、読む
+2. `ambiguity_points`（不明瞭点）を全て記録 — スキルのどの箇所が曖昧だったか
+3. `discretionary_fills`（裁量補完）を記録 — AIが独自判断で埋めた箇所
+4. 後のステップで、期待値のフェイルと関連する不明瞭点がないか照合する
+5. `retry_count` と `retry_reasons` を記録
+
 ### Step 2: 出力ファイルを確認
 
 1. outputs_dir 内のファイルをリストする
@@ -39,6 +49,8 @@
    - **PASS**: 期待値が真であることの明確なエビデンスがあり、かつ表面的なコンプライアンスではなく本質的なタスク完了を反映している
    - **FAIL**: エビデンスなし、エビデンスが期待値と矛盾、またはエビデンスが表面的（ファイル名は正しいが内容が空/不正など）
 3. **エビデンスを引用**: 判定を支持する具体的なテキストや発見を記述
+4. **不明瞭点との照合**: フェイルした期待値に関連する `ambiguity_point` がある場合、接続を明記する（例：「日付フォーマットが未指定だったため、期待と異なる形式で出力された」）
+5. **critical判定**: 期待値が `critical: true` の場合、出力で `critical` フラグを付与する。criticalのフェイルは通常のフェイルより優先的に報告
 
 ### Step 4: クレームの抽出と検証
 
@@ -132,6 +144,26 @@
   "eval_feedback": {
     "suggestions": [],
     "overall": "評価項目に問題なし"
+  },
+  "execution_report_summary": {
+    "ambiguity_points_count": 1,
+    "discretionary_fills_count": 1,
+    "ambiguity_points": [
+      {"location": "SKILL.md Step 3", "description": "日付フォーマット未指定", "how_resolved": "ISO 8601"}
+    ],
+    "discretionary_fills": [
+      {"decision": "空フィールドをスキップ", "reason": "記載なし"}
+    ],
+    "retry_count": 0,
+    "ambiguity_fail_connections": [
+      {"expectation": "日付がYYYY/MM/DD形式", "ambiguity": "日付フォーマット未指定"}
+    ]
+  },
+  "critical_expectations": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "all_passed": true
   }
 }
 ```
@@ -149,6 +181,12 @@
 - **claims**: 出力から抽出・検証されたクレーム
 - **user_notes_summary**: 実行者がフラグした問題
 - **eval_feedback**: 評価項目の改善提案（必要な場合のみ）
+- **execution_report_summary**: 実行レポートの要約（execution_report.jsonから）
+  - **ambiguity_points_count**: 不明瞭点の数 — イテレーション改善の**最重要指標**
+  - **discretionary_fills_count**: 裁量補完の数
+  - **ambiguity_fail_connections**: フェイルした期待値と関連する不明瞭点の対応付け
+- **critical_expectations**: critical指定された期待値の集計
+  - **all_passed**: 全criticalがパスしたか — イテレーション進行可否の判断基準
 
 ## ガイドライン
 

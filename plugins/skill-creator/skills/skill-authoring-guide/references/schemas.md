@@ -5,12 +5,14 @@
 ## Contents
 
 - evals.json
+- execution_report.json
 - grading.json
 - timing.json
 - benchmark.json
 - comparison.json
 - analysis.json
 - history.json
+- iteration_log.json
 - metrics.json
 
 ---
@@ -27,10 +29,34 @@
       "id": 1,
       "prompt": "ユーザーのタスクプロンプト",
       "expected_output": "期待結果の説明",
+      "category": "median",
+      "holdout": false,
       "files": ["evals/files/sample1.pdf"],
       "expectations": [
-        "出力にXが含まれている",
-        "スキルがスクリプトYを使用した"
+        {"text": "出力にXが含まれている", "critical": true},
+        {"text": "スキルがスクリプトYを使用した", "critical": false}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "エッジケースプロンプト",
+      "expected_output": "期待結果",
+      "category": "edge",
+      "holdout": false,
+      "files": [],
+      "expectations": [
+        {"text": "エラーハンドリングが適切", "critical": true}
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "hold-outプロンプト（チューニング中は使わない）",
+      "expected_output": "期待結果",
+      "category": "median",
+      "holdout": true,
+      "files": [],
+      "expectations": [
+        {"text": "基本要件を満たす", "critical": true}
       ]
     }
   ]
@@ -42,8 +68,12 @@
 - `evals[].id`: 一意の整数識別子
 - `evals[].prompt`: 実行するタスク
 - `evals[].expected_output`: 成功の人間可読な説明
+- `evals[].category`: `"median"`（典型ケース）| `"edge"`（境界ケース）— シナリオの分類
+- `evals[].holdout`: trueの場合、チューニング中は実行せず過適合検出時のみ使用
 - `evals[].files`: 入力ファイルパスのリスト（スキルルートからの相対）（オプション）
-- `evals[].expectations`: 検証可能な文のリスト
+- `evals[].expectations`: 検証可能な期待値のリスト
+  - `text`: 期待値の文（文字列のみの旧形式も後方互換で受け付ける）
+  - `critical`: trueの場合、イテレーション成功の必須条件。全criticalがパスしなければ進行不可
 
 ---
 
@@ -95,6 +125,23 @@
   "eval_feedback": {
     "suggestions": [],
     "overall": "評価項目に問題なし"
+  },
+  "execution_report_summary": {
+    "ambiguity_points_count": 1,
+    "discretionary_fills_count": 1,
+    "ambiguity_points": [
+      {"location": "SKILL.md Step 3", "description": "日付フォーマット未指定", "how_resolved": "ISO 8601"}
+    ],
+    "discretionary_fills": [
+      {"decision": "空フィールドをスキップ", "reason": "記載なし"}
+    ],
+    "retry_count": 0
+  },
+  "critical_expectations": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2,
+    "all_passed": true
   }
 }
 ```
@@ -108,6 +155,68 @@
 - `claims`: 出力から抽出・検証されたクレーム
 - `user_notes_summary`: 実行者がフラグした問題
 - `eval_feedback`:（オプション）評価項目の改善提案
+- `execution_report_summary`: 実行レポートの要約（execution_report.jsonから）
+  - `ambiguity_points_count`: 不明瞭点の数（イテレーション改善の主要指標）
+  - `discretionary_fills_count`: 裁量補完の数
+  - `ambiguity_points`, `discretionary_fills`: 詳細（execution_report.jsonから転記）
+  - `retry_count`: 再試行回数
+- `critical_expectations`: critical指定された期待値の集計
+  - `all_passed`: 全criticalがパスしたか（イテレーション進行の可否判断に使用）
+
+---
+
+## execution_report.json
+
+実行エージェントがタスク完了後に出力する構造化レポート。`<run-dir>/outputs/execution_report.json` に配置。スキルの**どの指示が曖昧だったか**と**AIが独自判断で埋めた箇所**を記録する。イテレーション改善の最も重要なシグナル。
+
+```json
+{
+  "deliverables": ["output.pdf", "field_values.json"],
+  "requirement_achievement": [
+    {
+      "requirement": "PDFフォームに全フィールドを入力する",
+      "status": "achieved",
+      "note": ""
+    },
+    {
+      "requirement": "日本語フォントで出力する",
+      "status": "partial",
+      "note": "一部のフィールドでフォントが適用されなかった"
+    }
+  ],
+  "ambiguity_points": [
+    {
+      "location": "SKILL.md Step 3",
+      "description": "日付フォーマットが指定されていなかった",
+      "how_resolved": "ISO 8601形式を使用した"
+    }
+  ],
+  "discretionary_fills": [
+    {
+      "decision": "空のoptionalフィールドをスキップした",
+      "reason": "スキルに空フィールドの扱いが記載されていなかった",
+      "alternative_considered": "N/Aを記入する選択肢もあった"
+    }
+  ],
+  "retry_count": 1,
+  "retry_reasons": ["pdfplumberでのフォーム入力が失敗し、pypdfに切り替えた"]
+}
+```
+
+**フィールド:**
+- `deliverables`: 生成された出力ファイルのリスト
+- `requirement_achievement[]`: 要件ごとの達成状況
+  - `status`: `"achieved"` | `"partial"` | `"not_achieved"`
+- `ambiguity_points[]`: スキルの指示が不明瞭だった箇所（**最重要シグナル**）
+  - `location`: SKILL.mdのセクション/ステップ参照
+  - `description`: 何が曖昧だったか
+  - `how_resolved`: AIがどう解決したか
+- `discretionary_fills[]`: スキルに記載がなくAIが独自判断した箇所
+  - `decision`: 何をしたか
+  - `reason`: なぜスキルでカバーされていなかったか
+  - `alternative_considered`: 他に考えた選択肢
+- `retry_count`: 再試行回数
+- `retry_reasons`: 各再試行の理由
 
 ---
 
@@ -205,7 +314,13 @@
       "tokens": "+1700"
     }
   },
-  "notes": []
+  "notes": [],
+  "convergence": {
+    "status": "converging",
+    "ambiguity_trend": [4, 2, 0],
+    "pass_rate_trend": [0.65, 0.85, 0.92],
+    "rationale": "連続2回で新規不明瞭点0、精度向上2pt"
+  }
 }
 ```
 
@@ -219,6 +334,11 @@
 - `run_summary`: 構成別の統計集計
   - `delta`: 差分文字列（`"+0.50"`, `"+13.0"` など）
 - `notes`: アナライザーからの自由形式観察
+- `convergence`: 収束状態の評価
+  - `status`: `"converging"` | `"diverging"` | `"plateau"` | `"insufficient_data"`
+  - `ambiguity_trend`: イテレーションごとの不明瞭点数の推移
+  - `pass_rate_trend`: イテレーションごとのパス率推移
+  - `rationale`: 判定根拠
 
 ---
 
@@ -317,3 +437,36 @@
   ]
 }
 ```
+
+---
+
+## iteration_log.json
+
+1イテレーション1テーマの原則に基づくイテレーション記録。`<workspace>/iteration-N/iteration_log.json` に配置。何を変えたか、なぜ変えたか、効果はどうだったかを追跡する。
+
+```json
+{
+  "iteration": 3,
+  "theme": "日付フォーマットの曖昧さを解消",
+  "source": "ambiguity_point from iteration-2, eval-1: 'SKILL.md Step 3で日付フォーマット未指定'",
+  "change_description": "SKILL.md Step 3 に 'ISO 8601形式(YYYY-MM-DD)で日付を記入' を追加",
+  "lines_changed": {"added": 3, "removed": 1, "file": "SKILL.md"},
+  "result": {
+    "pass_rate_before": 0.72,
+    "pass_rate_after": 0.85,
+    "ambiguity_points_before": 4,
+    "ambiguity_points_after": 2,
+    "critical_all_passed": true
+  }
+}
+```
+
+**フィールド:**
+- `iteration`: イテレーション番号
+- `theme`: このイテレーションで対処する1つのテーマ
+- `source`: テーマの出典（どのイテレーション・evalの不明瞭点/裁量補完から）
+- `change_description`: スキルへの具体的な変更内容
+- `lines_changed`: 変更量の記録
+- `result`: 変更の前後比較
+  - `ambiguity_points_before/after`: 不明瞭点数の変化（最重要指標）
+  - `critical_all_passed`: 全critical期待値がパスしたか
