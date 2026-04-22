@@ -17,6 +17,17 @@
         "command": "${CLAUDE_PLUGIN_ROOT}/scripts/log-user-prompt.sh"
       }
     ],
+    "PostToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/log-skill-invocation.sh"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "type": "command",
