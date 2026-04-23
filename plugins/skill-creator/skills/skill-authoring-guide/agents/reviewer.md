@@ -48,7 +48,7 @@ descriptionの内容を評価する：
 ### Step 4: SKILL.md本文を検証
 
 1. **行数カウント** — フロントマター（`---`で囲まれた部分）を除いた本文の行数
-2. **200行以内か** — 超過している場合はfail
+2. **100〜200行の目安以内か** — 200行を大幅に超過している場合はfail、100〜200行の範囲外ならwarn
 3. **MUST/NEVER/ALWAYSの使用頻度** — 多用している場合はwarn。理由（WHY）の説明があれば許容
 4. **時間依存情報** — 「現在」「最新」「2024年時点」等の表現がないか
 5. **用語の一貫性** — 同じ概念に異なる単語を使っていないか（例：「テスト」と「評価」の混在）
@@ -74,7 +74,7 @@ references/ 内の各ファイルについて：
 | `frontmatter-description-format` | 構造 | description形式制約 | fail: 制約違反 |
 | `description-specificity` | 品質 | 「何を」+「いつ」の両方 | warn: 片方欠如、fail: 両方欠如 |
 | `description-keywords` | 品質 | トリガーキーワードの十分性 | warn: 不十分 |
-| `body-line-count` | 構造 | 200行以内 | fail: 超過 |
+| `body-line-count` | 構造 | 100〜200行目安 | fail: 200行大幅超過、warn: 目安外 |
 | `writing-why-over-must` | 品質 | WHY説明 vs MUST/NEVER多用 | warn: MUST/NEVER/ALWAYSが5箇所以上で理由説明なし |
 | `writing-no-time-dependent` | 品質 | 時間依存情報の有無 | warn: 検出 |
 | `writing-terminology` | 品質 | 用語の一貫性 | warn: ブレ検出 |
@@ -101,8 +101,8 @@ references/ 内の各ファイルについて：
       "id": "body-line-count",
       "category": "structure",
       "status": "fail",
-      "message": "SKILL.md本文が200行を超過",
-      "evidence": "本文: 245行（上限: 200行）",
+      "message": "SKILL.md本文が目安（100〜200行）を大幅に超過",
+      "evidence": "本文: 245行（目安: 100〜200行）",
       "suggestion": "オーケストレーターパターンでreferences/に分離する"
     }
   ],
