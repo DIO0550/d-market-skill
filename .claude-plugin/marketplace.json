@@ -12,7 +12,7 @@
       "name": "skill-creator",
       "source": "./plugins/skill-creator",
       "description": "Agent Skillの設計・作成・改善を支援するスキル。SKILL.mdの構成、YAMLフロントマター、段階的開示パターン、ワークフロー設計、評価・イテレーションのベストプラクティスを網羅。",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "productivity",
       "tags": ["skill-authoring", "skill-creation", "best-practices"]
     },
