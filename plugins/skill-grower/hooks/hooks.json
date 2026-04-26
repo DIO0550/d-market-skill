@@ -13,8 +13,12 @@
     ],
     "UserPromptSubmit": [
       {
-        "type": "command",
-        "command": "${CLAUDE_PLUGIN_ROOT}/scripts/log-user-prompt.sh"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/log-user-prompt.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -30,8 +34,12 @@
     ],
     "Stop": [
       {
-        "type": "command",
-        "command": "${CLAUDE_PLUGIN_ROOT}/scripts/export-session-log.sh"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/export-session-log.sh"
+          }
+        ]
       }
     ]
   }

@@ -28,7 +28,7 @@
       "name": "skill-grower",
       "source": "./plugins/skill-grower",
       "description": "Skillを自動的に成長させるためのプラグイン。セッション中のユーザー発言・承認コマンド・スキル発火をセッション別ディレクトリに記録し、セッション終了時にやり取りの要約も書き出す。蓄積されたログから新しいスキルを作成する3つの分析スキル（複数セッション横断のパターン検出、単一セッションからのスキルdraft生成、承認コマンド分析）を提供する。",
-      "version": "2.1.0",
+      "version": "2.1.1",
       "category": "productivity",
       "tags": ["hooks", "command-logging", "skill-growth", "session-history", "user-prompts", "skill-invocation"]
     }
