@@ -19,7 +19,9 @@ if [ "${1:-}" = "--dry-run" ]; then
   echo "[DRY RUN] 変更は行わず、実行予定の操作のみ表示します。"
 fi
 
-WORKSPACE="${CLAUDE_PROJECT_DIR:-.}/.claude/plugin-workspace"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "${SCRIPT_DIR}/resolve-output-root.sh"
+WORKSPACE="${OUTPUT_ROOT}/.claude/plugin-workspace"
 OLD_CMD_DIR="${WORKSPACE}/approved-commands"
 OLD_LOG_DIR="${WORKSPACE}/session-logs"
 NEW_SESSIONS_DIR="${WORKSPACE}/sessions"

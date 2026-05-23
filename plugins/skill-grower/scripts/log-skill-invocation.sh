@@ -11,7 +11,9 @@ SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // "unknown"')
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 SAFE_SESSION_ID=$(echo "$SESSION_ID" | sed 's/[^a-zA-Z0-9_-]/_/g')
-SESSION_DIR="${CLAUDE_PROJECT_DIR:-.}/.claude/plugin-workspace/sessions/${SAFE_SESSION_ID}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "${SCRIPT_DIR}/resolve-output-root.sh"
+SESSION_DIR="${OUTPUT_ROOT}/.claude/plugin-workspace/sessions/${SAFE_SESSION_ID}"
 mkdir -p "$SESSION_DIR"
 
 LOG_FILE="${SESSION_DIR}/skill-invocations.jsonl"
