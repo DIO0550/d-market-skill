@@ -16,7 +16,9 @@ if [ "$SESSION_ID" = "unknown" ]; then
 fi
 
 SAFE_SESSION_ID=$(echo "$SESSION_ID" | sed 's/[^a-zA-Z0-9_-]/_/g')
-SESSION_DIR="${CLAUDE_PROJECT_DIR:-.}/.claude/plugin-workspace/sessions/${SAFE_SESSION_ID}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "${SCRIPT_DIR}/resolve-output-root.sh"
+SESSION_DIR="${OUTPUT_ROOT}/.claude/plugin-workspace/sessions/${SAFE_SESSION_ID}"
 LOG_FILE="${SESSION_DIR}/session-log.md"
 
 cat <<EOF
