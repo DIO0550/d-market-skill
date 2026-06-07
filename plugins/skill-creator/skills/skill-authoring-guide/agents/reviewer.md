@@ -52,6 +52,29 @@ descriptionの内容を評価する：
 3. **MUST/NEVER/ALWAYSの使用頻度** — 多用している場合はwarn。理由（WHY）の説明があれば許容
 4. **時間依存情報** — 「現在」「最新」「2024年時点」等の表現がないか
 5. **用語の一貫性** — 同じ概念に異なる単語を使っていないか（例：「テスト」と「評価」の混在）
+6. **冗長な冒頭** — 以下のいずれかに該当するか：
+   - H1がテンプレートプレースホルダ（`# スキル名`）のまま
+   - H1がnameフィールドの単純な人間化（ハイフン→スペース、Title Case化のみ）で追加情報なし
+   - H1直後の導入文がdescriptionの最初の文と実質的に同じ内容
+   
+   **判定方法:**
+   a. H1テキストが `# スキル名` と完全一致 → warn
+   b. H1テキストを小文字化・スペースをハイフンに置換した結果がnameと一致し、かつH1にname以外の単語がなければ → warn
+   c. H1直後の最初の非空行を取得し、descriptionの最初の文（最初の`。`まで）と比較。導入文の内容語（名詞・動詞、助詞を除く）の80%以上がdescriptionの最初の文にも含まれていれば → warn
+   
+   **偽陽性回避:**
+   - H1がnameと異なる単語を使っている場合（例: name=create-marketplace, H1=Marketplace Scaffold）はpass
+   - 導入文がdescriptionにない情報を追加している場合はpass
+   - 判断が曖昧な場合はpassにする
+7. **テンプレートプレースホルダーの残存** — 本文中にテンプレートのプレースホルダーが残っていないか：
+   - `[具体的な指示]`、`[入力例]`、`[出力例]`、`[最初のステップ]`、`[次のステップ]` 等のブラケット付きプレースホルダー
+   - `your-skill-name`（nameフィールドのプレースホルダー）
+   - `スキルの目的を1-2行で説明` のようなテンプレート指示文
+   
+   **偽陽性回避:**
+   - マークダウンリンク `[text](url)` パターンは除外
+   - コードブロック（` ``` `）内は除外
+   - テーブルヘッダー区切り `|---|` は除外
 
 ### Step 5: 参照ファイルを検証
 
@@ -78,6 +101,8 @@ references/ 内の各ファイルについて：
 | `writing-why-over-must` | 品質 | WHY説明 vs MUST/NEVER多用 | warn: MUST/NEVER/ALWAYSが5箇所以上で理由説明なし |
 | `writing-no-time-dependent` | 品質 | 時間依存情報の有無 | warn: 検出 |
 | `writing-terminology` | 品質 | 用語の一貫性 | warn: ブレ検出 |
+| `body-redundant-opening` | 品質 | 冗長な冒頭（name重複H1、description重複導入文、プレースホルダーH1） | warn: いずれか検出 |
+| `body-template-placeholder` | 品質 | テンプレートプレースホルダーの残存 | warn: 検出 |
 | `references-links-valid` | 構造 | リンク先の存在 | fail: リンク切れ |
 | `references-no-orphan` | 品質 | 未リンクの参照ファイル | warn: 存在 |
 | `references-no-chain` | 構造 | 参照の連鎖なし | fail: 連鎖検出 |
@@ -104,13 +129,29 @@ references/ 内の各ファイルについて：
       "message": "SKILL.md本文が目安（100〜200行）を大幅に超過",
       "evidence": "本文: 245行（目安: 100〜200行）",
       "suggestion": "オーケストレーターパターンでreferences/に分離する"
+    },
+    {
+      "id": "body-redundant-opening",
+      "category": "quality",
+      "status": "warn",
+      "message": "H1がnameフィールドの単純な人間化で、導入文がdescriptionの冒頭と同内容",
+      "evidence": "name: suggest-skills → H1: '# Suggest Skills'（単純変換一致）。導入文: '承認コマンドログを分析し...' ≈ descriptionの第1文",
+      "suggestion": "H1をスキルの独自の価値提案に書き換えるか削除する。導入文にはdescriptionにない文脈を追加するか、省略してワークフローから開始する"
+    },
+    {
+      "id": "body-template-placeholder",
+      "category": "quality",
+      "status": "warn",
+      "message": "テンプレートプレースホルダーが残存している",
+      "evidence": "L14: '[具体的な指示]'、L20: '[入力例]'",
+      "suggestion": "プレースホルダーを具体的な内容に置換する"
     }
   ],
   "summary": {
     "passed": 8,
-    "warned": 2,
+    "warned": 4,
     "failed": 1,
-    "total": 11
+    "total": 13
   },
   "line_counts": {
     "skill_md_total": 260,
