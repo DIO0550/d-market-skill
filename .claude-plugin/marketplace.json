@@ -12,7 +12,7 @@
       "name": "skill-creator",
       "source": "./plugins/skill-creator",
       "description": "Agent Skillの設計・作成・パッケージング（skill-authoring-guide）と、評価・ベンチマーク・イテレーション改善（skill-evaluator）を支援するプラグイン。SKILL.mdの構成、段階的開示パターン、ワークフロー設計、eval・収束判定・description最適化のベストプラクティスを網羅。",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "category": "productivity",
       "tags": ["skill-authoring", "skill-creation", "skill-evaluation", "benchmark", "best-practices"]
     },
@@ -20,7 +20,7 @@
       "name": "marketplace-template",
       "source": "./plugins/marketplace-template",
       "description": "Claude Code Skills Marketplaceの雛形プロジェクトを生成するプラグイン。marketplace.json、plugin.json、SKILL.mdテンプレート、スキャフォールドスクリプトを含む完全なMarketplace構造を自動生成する。",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "productivity",
       "tags": ["marketplace", "scaffold", "template", "project-init"]
     },
@@ -28,7 +28,7 @@
       "name": "skill-grower",
       "source": "./plugins/skill-grower",
       "description": "Skillを自動的に成長させるためのプラグイン。セッション中のユーザー発言・承認コマンド・スキル発火をセッション別ディレクトリに記録し、セッション終了時にやり取りの要約も書き出す。蓄積されたログから新しいスキルを作成する3つの分析スキル（複数セッション横断のパターン検出、単一セッションからのスキルdraft生成、承認コマンド分析）を提供する。",
-      "version": "2.1.2",
+      "version": "2.1.3",
       "category": "productivity",
       "tags": ["hooks", "command-logging", "skill-growth", "session-history", "user-prompts", "skill-invocation"]
     }
