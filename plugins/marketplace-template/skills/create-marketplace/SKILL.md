@@ -34,7 +34,8 @@ Claude Code Skills Marketplaceのフォルダ構造を生成する。
 │   └── marketplace.json       # Marketplaceレジストリ
 ├── plugins/                   # プラグイン格納ディレクトリ
 │   └── <plugin-name>/        # （プラグイン指定時）
-│       ├── plugin.json
+│       ├── .claude-plugin/
+│       │   └── plugin.json
 │       └── skills/            # スキル格納ディレクトリ（空）
 └── .gitignore
 ```
@@ -76,7 +77,7 @@ Claude Code Skills Marketplaceのフォルダ構造を生成する。
 作成後、以下を確認する：
 
 1. **marketplace.json** — 必須フィールド（name, owner, plugins）が揃っているか
-2. **plugin.json** — skills パスが `./skills` になっているか
+2. **plugin.json** — 各プラグインの `.claude-plugin/` 内に配置され、skills パスが `./skills` になっているか
 3. **ディレクトリ構造** — plugins/ 以下の階層が正しいか
 
 ---
@@ -91,7 +92,8 @@ Claude Code Skills Marketplaceのフォルダ構造を生成する。
 
 ## 注意事項
 
-- marketplace.json は `.claude-plugin/` ディレクトリ内に配置する（ルート直下ではない）
+- marketplace.json はリポジトリルートの `.claude-plugin/` ディレクトリ内に配置する（ルート直下ではない）
+- 各プラグインの plugin.json は、そのプラグイン直下の `.claude-plugin/` 内に配置する（`plugins/<plugin-name>/.claude-plugin/plugin.json`）。プラグイン直下に直接置くと Claude Code がマニフェストとして認識せず、マーケットプレイス同期/インストール時に問題になる
 - 既存のファイルがある場合、上書きしない
 - SKILL.md やスクリプトの内容はこのスキルの範囲外
 

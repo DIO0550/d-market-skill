@@ -23,7 +23,8 @@ marketplace-root/
 │   └── marketplace.json          # レジストリ（必須）
 ├── plugins/
 │   ├── plugin-a/
-│   │   ├── plugin.json           # プラグインメタデータ（必須）
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json       # プラグインメタデータ（必須）
 │   │   └── skills/
 │   │       ├── skill-1/
 │   │       │   ├── SKILL.md      # メイン指示（必須）
@@ -34,7 +35,8 @@ marketplace-root/
 │   │       └── skill-2/
 │   │           └── SKILL.md
 │   └── plugin-b/
-│       ├── plugin.json
+│       ├── .claude-plugin/
+│       │   └── plugin.json
 │       └── skills/
 │           └── ...
 ├── .gitignore
@@ -46,6 +48,7 @@ marketplace-root/
 - `.claude-plugin/` はルート直下に配置
 - プラグインは `plugins/` ディレクトリ内に格納
 - 各プラグインは独立したディレクトリ
+- 各プラグインの `plugin.json` は **そのプラグイン直下の `.claude-plugin/` 内**に配置（`plugins/plugin-a/.claude-plugin/plugin.json`）。プラグイン直下に直接置くと Claude Code がマニフェストとして認識しない
 - スキルは `skills/` サブディレクトリ内に格納
 - 参照ファイルは SKILL.md から1階層のみ
 
