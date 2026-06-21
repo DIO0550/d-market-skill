@@ -31,14 +31,6 @@
       "version": "2.1.3",
       "category": "productivity",
       "tags": ["hooks", "command-logging", "skill-growth", "session-history", "user-prompts", "skill-invocation"]
-    },
-    {
-      "name": "doc-knowledge",
-      "source": "./plugins/doc-knowledge",
-      "description": "技術教育・解説資料用のHTML作成スキル（html-educational-material）を提供するプラグイン。暗号技術・アルゴリズム・システム設計などの技術概念を、図解・フロー図・比較表で視覚的に説明する学術ノート風ライトテーマのHTMLを作成し、理解度確認用のクイズHTMLも生成できる。",
-      "version": "1.0.0",
-      "category": "productivity",
-      "tags": ["html", "documentation", "educational", "diagram", "quiz", "technical-writing"]
     }
   ]
 }
