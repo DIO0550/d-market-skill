@@ -31,6 +31,14 @@
       "version": "2.1.3",
       "category": "productivity",
       "tags": ["hooks", "command-logging", "skill-growth", "session-history", "user-prompts", "skill-invocation"]
+    },
+    {
+      "name": "steering-auditor",
+      "source": "./plugins/steering-auditor",
+      "description": "Claude Codeの全ステアリング要素（CLAUDE.md/rules・skills・subagents・hooks・slash commands・output styles・MCP・settings.json）を監査・評価するプラグイン。Anthropicの『Steering Claude Code』の枠組みに基づき、各成果物が正しいprimitiveで実装されているか（advisory→CLAUDE.md / mandatory→hook / procedural→skill / context isolation→subagent）と設計ベストプラクティスへの適合を、サブエージェントに並列評価させて重大度付きの監査レポートと改善ロードマップを生成する。",
+      "version": "1.0.2",
+      "category": "productivity",
+      "tags": ["audit", "evaluation", "steering", "skills", "hooks", "subagents", "best-practices", "config-review"]
     }
   ]
 }
