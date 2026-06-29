@@ -169,6 +169,6 @@ primitiveタイプ1つ分の評価結果。`findings/skill.json` のようにタ
 ```
 
 **フィールド:**
-- `health.overall_score`: 全体健全性 0-10（primitive別スコアの加重平均）
+- `health.overall_score`: 全体健全性 0-10（primitive別スコアの加重平均）。**ステアリング成果物が1件も無い場合は `0` ではなく `null`** とする（`0` は「悪い設定が存在する」という誤った含意を持つため。設定の不在は「品質が低い」ではなく「未着手」）。あわせて `status: "no_artifacts_found"` を付け、`top_findings`・`fit_mismatches`・`counts` は空/ゼロにする
 - `roadmap[]`: 優先度順の改善計画。ブログ推奨（skills→hooks→subagents）の順序感を加味
 - `counts`: 重大度別の所見総数

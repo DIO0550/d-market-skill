@@ -1,6 +1,6 @@
 {
   "name": "steering-auditor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Claude Codeの全ステアリング要素（CLAUDE.md/rules・skills・subagents・hooks・slash commands・output styles・MCP）を監査・評価するプラグイン。Anthropicの『Steering Claude Code』の枠組みに基づき、各要素が(1)正しいprimitiveで実装されているか(2)設計ベストプラクティスに沿っているかをサブエージェントに並列評価させ、重大度付きの監査レポートと改善提案を生成する。",
   "author": {
     "name": "DIO0550"
