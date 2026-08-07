@@ -4,6 +4,7 @@
 
 ## Contents
 
+- static_review.json
 - evals.json
 - execution_report.json
 - grading.json
@@ -14,6 +15,81 @@
 - history.json
 - iteration_log.json
 - metrics.json
+
+---
+
+## static_review.json
+
+Phase 0 の静的レビュー結果。`<workspace>/static_review.json` に配置。スキルを実行せず、ファイルだけを読んで判定した結果を記録する。判定基準は [static-review.md](static-review.md) 参照。
+
+```json
+{
+  "skill_path": "/path/to/my-skill",
+  "skill_md_lines": 312,
+  "distribution_targets": ["claude_code", "claude_ai"],
+  "frontmatter": {
+    "fields_present": ["name", "description", "argument-hint"],
+    "description_chars": 612,
+    "description_when_to_use_chars": 612,
+    "over_1536_cap": false,
+    "violations": [
+      {
+        "id": "spec_only_field",
+        "field": "argument-hint",
+        "severity": "critical",
+        "detail": "claude.ai へのアップロードを想定しているが argument-hint は spec 外。パッケージングがハードエラーになる",
+        "fix": "argument-hint を削除し、引数の説明を description か本文に移す"
+      }
+    ],
+    "suggestions": [
+      {
+        "id": "disable_model_invocation",
+        "field": "disable-model-invocation",
+        "severity": "high",
+        "detail": "デプロイを実行するスキルだが自動起動が有効",
+        "fix": "disable-model-invocation: true を追加する",
+        "rationale": "副作用のある操作をClaudeの判断で起動させない"
+      }
+    ]
+  },
+  "leanness": {
+    "emphasis_word_count": 12,
+    "total_estimated_lines_removable": 38,
+    "findings": [
+      {
+        "id": "duplication",
+        "location": "SKILL.md L120-134",
+        "severity": "medium",
+        "detail": "採点手順が agents/grader.md と重複している",
+        "evidence": "L120-134 と grader.md Step 3 がほぼ同一内容",
+        "estimated_lines_removable": 14,
+        "fix": "本文は grader.md への参照1行に置き換える",
+        "keep_reason_checked": true
+      }
+    ]
+  },
+  "summary": {
+    "critical": 1,
+    "high": 1,
+    "medium": 1,
+    "low": 0,
+    "verdict": "needs_changes",
+    "recommended_next": ["argument-hint の削除", "L120-134 の重複削除を iteration-1 のテーマにする"]
+  }
+}
+```
+
+**フィールド:**
+- `distribution_targets`: 配布先。`"claude_code"` | `"claude_ai"` | `"skills_api"` | `"package_skill"`。claude_code 以外を含む場合、spec 6フィールド以外は `critical` 違反になる
+- `frontmatter.over_1536_cap`: `description` + `when_to_use` が 1,536 文字を超えているか（超過分は一覧から切り捨てられトリガーに効かない）
+- `frontmatter.violations[]`: 規約違反。直す必要がある
+- `frontmatter.suggestions[]`: 改善提案。違反ではない。`rationale` を書けないものは提案しない
+- `leanness.findings[]`: 無駄な記述の検出結果
+  - `id`: 検出パターンID（`baseline_knowledge` / `out_of_scope` / `duplication` / `unjustified_emphasis` / `redundant_example` / `over_decomposition` / `dead_branch` / `preamble` / `misplaced_detail` / `dead_file`）
+  - `location`: SKILL.md の行番号範囲またはファイルパス
+  - `evidence`: 削って良いと判断した根拠。**必須** — 「短くできる」だけでは根拠にならない
+  - `keep_reason_checked`: 「削ってはいけないもの」（eval由来の記述、失敗事例に基づく制約など）に該当しないか確認済みか
+- `summary.verdict`: `"clean"`（対応不要）| `"needs_changes"`（改善余地あり、evalは進めてよい）| `"blocking"`（criticalがあり先に直す）
 
 ---
 
