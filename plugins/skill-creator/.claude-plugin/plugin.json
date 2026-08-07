@@ -1,7 +1,7 @@
 {
   "name": "skill-creator",
-  "version": "1.4.0",
-  "description": "Agent Skillの設計・作成・パッケージング（skill-authoring-guide）と、評価・ベンチマーク・イテレーション改善（skill-evaluator）を支援するプラグイン。SKILL.mdの構成、段階的開示パターン、ワークフロー設計、eval・収束判定・description最適化のベストプラクティスを網羅。",
+  "version": "1.5.0",
+  "description": "Agent Skillの設計・作成・パッケージング（skill-authoring-guide）と、静的レビュー・評価・ベンチマーク・イテレーション改善（skill-evaluator）を支援するプラグイン。SKILL.mdの構成、段階的開示パターン、ワークフロー設計、無駄な記述の検出、フロントマターの仕様適合チェック、eval・収束判定・description最適化のベストプラクティスを網羅。",
   "author": {
     "name": "DIO0550"
   },
