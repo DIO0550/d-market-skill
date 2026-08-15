@@ -39,6 +39,14 @@
       "version": "1.0.2",
       "category": "productivity",
       "tags": ["audit", "evaluation", "steering", "skills", "hooks", "subagents", "best-practices", "config-review"]
+    },
+    {
+      "name": "learning-quiz",
+      "source": "./plugins/learning-quiz",
+      "description": "学習クイズプラグイン。サブエージェントがトピックやリポジトリの資料を調査してクイズ問題を生成し、出題・採点・進捗記録を行う。進捗（正答率・連続正解・習熟度）はスクリプト経由でJSONに永続化され、セッションをまたいで弱点分野の復習に活用できる。",
+      "version": "1.0.0",
+      "category": "learning",
+      "tags": ["quiz", "learning", "study", "progress-tracking", "spaced-repetition"]
     }
   ]
 }
