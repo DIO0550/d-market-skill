@@ -93,7 +93,7 @@ description: "何をするか＋いつ使うべきかの両方を含める。"
 
 **nameの制約:** 最大64文字、小文字・数字・ハイフンのみ、XMLタグ禁止、予約語（anthropic/claude）禁止
 
-**descriptionの制約:** 最大1024文字、空不可、XMLタグ禁止、三人称で記述
+**descriptionの制約:** Claude Code では `description` + `when_to_use` 合計最大1,536文字（Agent Skills spec 互換上限は最大1,024文字）、空不可、XMLタグ禁止、三人称で記述
 
 **descriptionの書き方のコツ：**
 - Claudeは100以上のスキルからdescriptionのみで選択 — 十分な具体性が必要

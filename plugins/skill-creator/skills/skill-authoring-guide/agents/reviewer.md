@@ -32,7 +32,7 @@ SKILL.mdを読み、YAMLフロントマターを検査する。
 
 **descriptionのチェック:**
 - 空でない
-- 最大1024文字
+- Claude Code では `description` + `when_to_use` 合計最大1,536文字（Agent Skills spec 互換で配布する場合は `description` 最大1,024文字）
 - XMLタグを含まない
 - 三人称で記述されている（「〜する」「〜を支援する」等。「あなた」「私」は不適切）
 

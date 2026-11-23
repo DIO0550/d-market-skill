@@ -30,7 +30,7 @@ Claudeは100以上のスキルの中からdescriptionのみでどのスキルを
   - ✗ 「PDFの処理をお手伝いします」
   - ✗ 「このスキルを使ってPDFを処理できます」
 - **やや積極的に** — Claudeはスキルを使わない方向にバイアスがあるため
-- **1024文字以内**
+- **文字数上限**: Claude Code では `description` + `when_to_use` 合計 **1,536文字以内**（Agent Skills spec 互換上限は `description` **1,024文字以内**）
 - **XMLタグ禁止**
 
 ---

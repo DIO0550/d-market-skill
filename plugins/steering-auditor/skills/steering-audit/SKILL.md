@@ -88,7 +88,7 @@ Claude Codeプロジェクトの**ステアリング設定全体**を静的に�
 
 ## Phase 3: 適合チェック（横断）
 
-ブログの核心は「**正しい乗り物を選んでいるか**」。Phase 2 の所見と inventory 全体を渡し、[agents/fit-checker.md](agents/fit-checker.md) で**1つのサブエージェント**を起動して横断的なミスマッチを判定させる。
+この枠組みの核心は「**正しい乗り物を選んでいるか**」。Phase 2 の所見と inventory 全体を渡し、[agents/fit-checker.md](agents/fit-checker.md) で**1つのサブエージェント**を起動して横断的なミスマッチを判定させる。
 
 主な検出パターン（[references/steering-primitives.md](references/steering-primitives.md) の決定表に基づく）：
 
@@ -120,7 +120,7 @@ Claude Codeプロジェクトの**ステアリング設定全体**を静的に�
 - 適合ミスマッチのトップ3（「これはhookにすべき」等）
 - 次の一手の提案
 
-> ユーザーが「直して」と言った場合のみ修正に進む。監査は読み取り専用が基本。修正する場合は本リポジトリの [CLAUDE.md バージョン管理ルール] に従い plugin.json と marketplace.json を更新する。
+> ユーザーが「直して」と言った場合のみ修正に進む。監査は読み取り専用が基本。修正する場合は対象リポジトリのバージョン管理・規約（CLAUDE.md 等）に従う。
 
 ---
 
