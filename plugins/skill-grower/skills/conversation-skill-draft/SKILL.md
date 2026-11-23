@@ -48,7 +48,7 @@ SESSION_DIR=$(ls -dt .claude/plugin-workspace/sessions/*/ | head -1)  # mtime �
 **欠損ハンドリング:**
 - `session-log.md` が無い: user-prompts.jsonl と approved-commands.jsonl だけで続行、「要約が無いので精度が低い可能性」をユーザーに伝える
 - `user-prompts.jsonl` が無い: 続行不可。スキル draft の中核はユーザー発言なので、無い場合は session-skill-sketch の利用を推奨して終了
-- `approved-commands.jsonl` が無い: 続行、ただしスクリプト系スキルの判断は controlled
+- `approved-commands.jsonl` が無い: 続行、ただしスクリプト系スキル（with-scripts）の判定は控えめにする（ユーザー発言のみから判断）
 
 ### Step 2: ユーザー発言の構造化
 
@@ -100,7 +100,7 @@ Step 2 と Step 3 の結果から、作成するスキルのタイプを決め�
 ```markdown
 ---
 name: <kebab-case-name>
-description: "<60-200字、いつ使うか>。<トリガーキーワード羅列>。"
+description: "<何をするか>。<いつ使うか・トリガー条件>。"
 ---
 
 # <Title>
@@ -108,10 +108,6 @@ description: "<60-200字、いつ使うか>。<トリガーキーワード羅列
 <1-2文の概要。Step 2-1 の初期指示を参考にする>
 
 ---
-
-## いつ使うか
-
-<具体的なユースケース>
 
 ## ワークフロー
 
@@ -145,7 +141,7 @@ description: "<60-200字、いつ使うか>。<トリガーキーワード羅列
 - **曖昧だった箇所**: ユーザー発言やコマンドから判断できず、仮置きで書いた箇所
 - **カバーされていない可能性**: このセッションには無かったが、本来スキルに含めるべきと思われる機能
 
-**この自己レポートは empirical-prompt-tuning の「不明瞭点」「裁量補完」と同じ役割を果たす。**
+**この自己レポートは skill-evaluator の「不明瞭点」「裁量補完」と同じ役割を果たす。**
 これを見てユーザーが補足すれば、スキルの初稿の精度が上がる。
 
 ### Step 7: ユーザーとの対話

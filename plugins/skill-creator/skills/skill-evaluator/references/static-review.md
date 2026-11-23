@@ -86,7 +86,7 @@
 | `shell` | インラインコマンドのシェル | `bash`（既定）/ `powershell` |
 | `metadata` | 自前ツール用の自由なキー値マップ | **マップ以外の値は破棄**される。`paths` など既存フィールド名をキーに再利用しない |
 | `license` | ライセンス | Agent Skills spec。Claude Code は受け付けるが何もしない |
-| `compatibility` | 動作environment要件 | Agent Skills spec。500文字以内の文字列 |
+| `compatibility` | 動作環境要件 | Agent Skills spec。500文字以内の文字列 |
 
 boolean フィールドは `true` / `false` に加えて `yes` `no` `on` `off` `1` `0`（大文字小文字不問）も受理される（v2.1.218以降）。古いバージョンとの互換を優先するなら `true` / `false` を使う。
 
